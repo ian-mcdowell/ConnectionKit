@@ -14,6 +14,15 @@ public protocol ServerConnection {
     /// Creates a new connection for the account.
     init(address: String, port: Int16, username: String, password: String) throws
 
+    /// Name of the connection type
+    static var displayName: String { get }
+
+    /// Default port for connecting to the server
+    static var defaultPort: Int { get }
+
+    /// Can the user choose another port?
+    static var allowsCustomPort: Bool { get }
+
     /// Finds the contents of the directory.
     ///
     /// - Parameters:
