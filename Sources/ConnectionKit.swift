@@ -15,20 +15,26 @@ public class ConnectionManager {
         static let ConnectionsPath = "Connections"
     }
 
-    public static let availableConnections: [ServerConnection.Type] = loadAvailableConnections()
+    public struct Connection {
+        public let type: ServerConnection.Type
+        public let bundleID: String
+    }
 
-    private static func loadAvailableConnections() -> [ServerConnection.Type] {
+    public static let availableConnections: [Connection] = loadAvailableConnections()
+
+    private static func loadAvailableConnections() -> [Connection] {
         do {
-            let connectionsDirectory = Bundle.main.bundleURL.appendingPathComponent(Constants.ConnectionsPath)
+            guard let connectionsDirectory = Bundle.mainAppBundle.privateFrameworksURL else { return [] }
             let contents = try FileManager.default.contentsOfDirectory(at: connectionsDirectory, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
 
             return contents.compactMap { bundleURL in
                 guard
                     let bundle = Bundle.init(url: bundleURL),
-                    let principalClass = bundle.principalClass
+                    let bundleID = bundle.bundleIdentifier,
+                    let principalClass = bundle.principalClass as? ServerConnection.Type
                 else { return nil }
 
-                return principalClass as? ServerConnection.Type
+                return Connection.init(type: principalClass, bundleID: bundleID)
             }
         } catch {
             return []
@@ -36,3 +42,16 @@ public class ConnectionManager {
     }
 }
 
+private extension Bundle {
+    static var mainAppBundle: Bundle {
+        var bundle = Bundle.main
+        if bundle.bundleURL.pathExtension == "appex" {
+            // Peel off two directory levels - MY_APP.app/PlugIns/MY_APP_EXTENSION.appex
+            let url = bundle.bundleURL.deletingLastPathComponent().deletingLastPathComponent()
+            if let otherBundle = Bundle(url: url) {
+                bundle = otherBundle
+            }
+        }
+        return bundle
+    }
+}
