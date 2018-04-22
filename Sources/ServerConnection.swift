@@ -94,3 +94,12 @@ public protocol ServerConnection {
 	func delete(item: RemotePath, _ completion: @escaping (Error?) -> Void)
 }
 
+/// Default implementations of above methods/properties, which are optional overrides
+public extension ServerConnection {
+	static var allowsCustomPort: Bool { return false }
+	static var bonjourServiceType: String? { return nil }
+	static var customUsernameDisplayName: String? { return nil }
+	static var customPasswordDisplayName: String? { return nil }
+	static var customHostnameDisplayName: String? { return nil }
+	static var possibleHostnames: [(name: String, value: String)]? { return nil }
+}
