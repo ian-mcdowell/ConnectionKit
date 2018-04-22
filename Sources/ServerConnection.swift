@@ -14,11 +14,8 @@ public protocol ServerConnection {
 	/// Creates a new connection for the account.
 	init(address: String, port: Int16, username: String, password: String) throws
 	
-	/// Name of the connection type
-	static var displayName: String { get }
-	
-	/// Default port for connecting to the server
-	static var defaultPort: Int { get }
+	/// Properties of the connection
+	static var properties: ServerConnectionProperties { get }
 	
 	/// Finds the contents of the directory.
 	///
@@ -74,25 +71,4 @@ public protocol ServerConnection {
 	///   - item: The item to delete
 	///   - completion: A callback to be called on completion
 	func delete(item: RemotePath, _ completion: @escaping (Error?) -> Void)
-}
-
-/// Default implementations of above methods/properties, which are optional overrides
-public extension ServerConnection {
-	/// Can the user choose another port?
-	static var allowsCustomPort: Bool { return false }
-	
-	/// mdns service type, i.e. "_smb._tcp"
-	static var bonjourServiceType: String? { return nil }
-	
-	/// Override the display name for the "Username" field when creating an account
-	static var customUsernameDisplayName: String? { return nil }
-	
-	/// Override the display name for the "Password" field when creating an account
-	static var customPasswordDisplayName: String? { return nil }
-	
-	/// Override the display name for the "Hostname" field when creating an account
-	static var customHostnameDisplayName: String? { return nil }
-	
-	/// If not nil, only these hostnames will be possible to connect to.
-	static var possibleHostnames: [(name: String, value: String)]? { return nil }
 }
