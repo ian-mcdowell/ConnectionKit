@@ -22,6 +22,21 @@ public protocol ServerConnection {
 
     /// Can the user choose another port?
     static var allowsCustomPort: Bool { get }
+	
+	/// mdns service type, i.e. "_smb._tcp"
+	static var bonjourServiceType: String? { get }
+	
+	/// Override the display name for the "Username" field when creating an account
+	static var customUsernameDisplayName: String? { get }
+	
+	/// Override the display name for the "Password" field when creating an account
+	static var customPasswordDisplayName: String? { get }
+	
+	/// Override the display name for the "Hostname" field when creating an account
+	static var customHostnameDisplayName: String? { get }
+	
+	/// If not nil, only these hostnames will be possible to connect to.
+	static var possibleHostnames: [(name: String, value: String)]? { get }
 
     /// Finds the contents of the directory.
     ///
