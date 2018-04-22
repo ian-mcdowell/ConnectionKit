@@ -65,6 +65,7 @@
 				3CD00FB7207BE45F007621FF /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		3CD00FB7207BE45F007621FF /* Products */ = {
 			isa = PBXGroup;
