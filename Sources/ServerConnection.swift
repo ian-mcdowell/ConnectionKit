@@ -70,5 +70,5 @@ public protocol ServerConnection {
 	/// - Parameters:
 	///   - item: The item to delete
 	///   - completion: A callback to be called on completion
-	func delete(item: RemotePath, _ completion: @escaping (Error?) -> Void)
+	func delete(at path: RemotePath, type: RemoteItemType, _ completion: @escaping (Error?) -> Void)
 }

@@ -69,6 +69,10 @@ public extension RemotePath {
 	var isRoot: Bool { return self.isEmpty || self == "/" }
 }
 
+public enum RemoteItemType {
+	case file, folder
+}
+
 public protocol RemoteItem {
 	var name: String { get }
 }
